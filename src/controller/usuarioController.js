@@ -21,6 +21,13 @@ module.exports = {
     async excluir(req, res){
         await Usuario.findByIdAndRemove(req.params.id);
         return res.send('usuário deletado com sucesso');
+    },
+    async autenticar(req, res){
+        const dados = req.body;
+        const usuario = await Usuario.findOne({cpf: dados.cpf, senha: dados.senha})
+        if(!usuario)
+            return res.status(404).json({"message":"Usuário não encontrado"});
+        return res.json(usuario);
     }
 
 }
