@@ -19,21 +19,7 @@ class Scraper {
     }
 
     async doListen(type, cb) {
-        await this.page.on(type, request => cb(request));
-    }
-
-    verifyIsLoginPage(request) {
-        console.log('entrou no verify');
-        
-        let isLogin = false;
-        const frame = request.frame();
-        if (!isLogin && frame.url() !== "about:blank") {
-            isLogin = frame.url().includes('login')
-            if(isLogin) {
-                console.log('Entrou no login');
-                this.doLogin(page)
-            }
-        }
+        await this.page.on(type, request => cb(this.page, request));
     }
 
     async doClose() {
@@ -41,7 +27,6 @@ class Scraper {
     }
 
     async doLogin() {
-        console.log('Fazendo login...');
         await this.page.focus('#username')
         await this.page.keyboard.type('fiap')
         await this.page.focus('#password')
@@ -49,7 +34,6 @@ class Scraper {
         await this.page.evaluate(() => {
             document.querySelector('button').click();
         })
-        console.log('Finalizou...');
     }
 }
 
