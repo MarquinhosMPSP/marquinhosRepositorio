@@ -1,10 +1,8 @@
-const puppeteer = require('puppeteer');
+const sivec = async (browser) => {
 
-(async () => {
+    console.log('entrou sivec');
+
     let url = "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/sivec/login.html";
-    const browser = await puppeteer.launch({
-        headless: false
-    });
 
     let page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle2'});
@@ -16,7 +14,12 @@ const puppeteer = require('puppeteer');
     await Promise.all([
         page.waitForNavigation(),
         page.click('#Acessar')
-    ]);  
+    ]); 
 
-    await browser.close();
-})();
+    await page.close()
+    
+    return true
+
+};
+
+module.exports = sivec

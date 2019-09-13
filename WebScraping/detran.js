@@ -1,15 +1,11 @@
-const puppeteer = require('puppeteer');
+const detran = async (browser) => {
 
-(async () => {
+    console.log('entrou detran');
+
     let url = "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/login.html";
-    const browser = await puppeteer.launch({
-        headless: false
-    });
-
 
     let page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle2'});
-
 
     await page.focus('input[class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all campoObrigatorio ui-state-focus"]');
     await page.keyboard.type('nome do usuario', {delay: 10});
@@ -25,7 +21,9 @@ const puppeteer = require('puppeteer');
         page.click('#navigation_a_F_18')
     ]);
 
+    page.close()
 
-    debugger;
-    await browser.close();
-})();
+    return true
+};
+
+module.exports = detran

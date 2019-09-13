@@ -12,14 +12,14 @@ class Scraper {
 
     async doRun(cb) {
         try {
-            await cb(this.browser, this.page)
+            return await cb(this.browser, this.page)
         } catch (error) {
             console.log(error);
         }
     }
 
     async doListen(type, cb) {
-        await this.page.on(type, request => cb(this.page, request));
+        await this.page.on(type, request => cb(request));
     }
 
     async doClose() {
@@ -34,6 +34,8 @@ class Scraper {
         await this.page.evaluate(() => {
             document.querySelector('button').click();
         })
+        console.log('fez login');
+        
     }
 }
 

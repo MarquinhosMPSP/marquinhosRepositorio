@@ -1,10 +1,6 @@
-const puppeteer = require('puppeteer');
-
-(async () => {
+const siel = async (browser) => {
     
-    const browser = await puppeteer.launch({
-        headless: false
-    });
+    console.log('entrou siel');
 
     let page = await browser.newPage();
 
@@ -66,8 +62,9 @@ const puppeteer = require('puppeteer');
             }
     });
 
-      
+    await page.close()
 
-   debugger;
-    await browser.close();
-})();
+    return data
+};
+
+module.exports = siel

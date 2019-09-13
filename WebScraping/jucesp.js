@@ -1,10 +1,10 @@
-const puppeteer = require('puppeteer');
+// const puppeteer = require('puppeteer');
 
-(async () => {
+const jucesp = async (browser) => {
+
+    console.log('entrou jucesp');    
+
     let url = "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/jucesp/index.html";
-    const browser = await puppeteer.launch({
-        headless: false
-    });
 
     let page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle2'});
@@ -59,7 +59,9 @@ const puppeteer = require('puppeteer');
             }
     });
 
-    debugger;
-    console.log(data);
-    await browser.close();
-})();
+    await page.close()
+
+    return data;
+};
+
+module.exports = jucesp
