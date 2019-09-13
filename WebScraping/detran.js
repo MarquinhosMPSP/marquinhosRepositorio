@@ -21,7 +21,7 @@ const detran = async (browser) => {
         page.click('#navigation_a_F_18')
     ]);
 
-    page.close()
+    await page.close()
 
     return true
 };
