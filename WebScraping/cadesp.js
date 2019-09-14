@@ -1,10 +1,9 @@
-const puppeteer = require('puppeteer');
+const cadesp = async(browser) => {
 
-(async() => {
+  console.log('entrou no cadesp...');
 
   let url = 'http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/cadesp/login.html'
 
-  let browser = await puppeteer.launch({ headless: false });
   let page = await browser.newPage();
 
   await page.goto(url, {waitUntil: 'networkidle2'})
@@ -25,26 +24,29 @@ const puppeteer = require('puppeteer');
   await page.keyboard.type('CNPJ')
   await page.waitForSelector('#ctl00_conteudoPaginaPlaceHolder_tcConsultaCompleta_TabPanel1_btnConsultarEstabelecimento')
   await page.click('#ctl00_conteudoPaginaPlaceHolder_tcConsultaCompleta_TabPanel1_btnConsultarEstabelecimento')
+  
+  await page.waitForSelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)')
 
   const data = await page.evaluate(() => {
-    let ie = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
+    let ie = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText
     let cnpj = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(3) > td:nth-child(2)').innerText;
     let nomeEmpresarial = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(4) > td:nth-child(2)').innerText;
     let drt = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(5) > td:nth-child(2)').innerText;
-    let situacao = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(6) > td:nth-child(2)').innerText;
-    let dtInscricaoEstado = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(7) > td:nth-child(2)').innerText;
-    let regimeEstadual = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(8) > td:nth-child(2)').innerText;
-    let postoFiscal = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(9) > td:nth-child(2)').innerText;
+
+    let situacao = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(3)').innerText;
+    let dtInscricaoEstado = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(3) > td:nth-child(3)').innerText;
+    let regimeEstadual = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(4) > td:nth-child(3)').innerText;
+    let postoFiscal = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(5) > td:nth-child(3)').innerText;
     
     let nomeFantasia = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(2) > td.dadoDetalhe').innerText;
-    let nire = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
-    let situacaoCadastral = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
-    let ocorrenciaFiscal = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
-  
-    let tipoUnidade = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
-    let dtInicioIE = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
-    let dtInicioSituacao = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
-    let formasAtuacao = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlCabecalho > tbody > tr > td > table > tbody > tr:nth-child(2) > td:nth-child(2)').innerText;
+    let nire = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(5) > td.dadoDetalhe').innerText;
+    let situacaoCadastral = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(7) > td:nth-child(2)').innerText;
+    let ocorrenciaFiscal = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(8) > td:nth-child(2)').innerText;
+    let tipoUnidade = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(10) > td:nth-child(2)').innerText;
+
+    let dtInicioIE = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(4) > td:nth-child(4)').innerText;
+    let dtInicioSituacao = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral > tbody > tr:nth-child(2) > td > table > tbody > tr:nth-child(7) > td:nth-child(4)').innerText;
+    let formasAtuacao = document.querySelector('#ctl00_conteudoPaginaPlaceHolder_dlEstabelecimentoGeral_ctl01_dlEstabelecimentoFormasAtuacao > tbody > tr > td > table > tbody > tr > td').innerText;
   
     return {
       ie,
@@ -65,12 +67,11 @@ const puppeteer = require('puppeteer');
       formasAtuacao
     }
   })
-  
 
   await page.close()
 
-  return true
+  return data
 
-})()
+}
 
-// module.exports = cadesp;
+module.exports = cadesp;
