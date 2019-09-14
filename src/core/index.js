@@ -1,4 +1,4 @@
-const { jucesp, siel, sivec, detran } = require('../../WebScraping');
+const { jucesp, siel, sivec, detran, arpenp } = require('../../WebScraping');
 const Scraper = require('./model/scraper');
 
 const run = async() => {
@@ -22,12 +22,15 @@ const run = async() => {
                 }
             }
         })
-
+        //const portais = Promise.all([jucesp(browser), siel(browser), sivec(browser), arpenp(browser)])
         return await scraper.doRun(async (browser, page) => {
             await page.goto(mainUrl)
-            const portais = Promise.all([jucesp(browser), siel(browser), sivec(browser)])
+            const portais = Promise.all([arpenp(browser)])
                 .then(async(data) => {
-                    await browser.close()
+                    setTimeout(async() => {
+                        await browser.close()
+                    }, 3000)
+                    
                     return data
                 })
             return portais
