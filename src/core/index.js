@@ -13,6 +13,7 @@ const run = async() => {
     try {
         await scraper.doCreate()
         
+        // Verificando se é login
         scraper.doListen('request', (request) => {
             const frame = request.frame();
             if (!isLogin && frame.url() !== "about:blank") {
@@ -23,6 +24,7 @@ const run = async() => {
             }
         })
 
+        // Retornar dados
         return await scraper.doRun(async (browser, page) => {
             await page.goto(mainUrl)
             const portais = Promise.all([jucesp(browser), siel(browser), sivec(browser)])

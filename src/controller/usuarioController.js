@@ -27,7 +27,7 @@ module.exports = {
         const usuario = await Usuario.findOne({cpf: dados.cpf, senha: dados.senha}, 'nome')
         if(!usuario)
             return res.status(404).json({"message":"CPF ou senha inválidos"});
-        return res.json(usuario);
+        res.json(usuario);
     }
 
 }
