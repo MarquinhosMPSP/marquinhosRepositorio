@@ -43,6 +43,7 @@ const jucesp = async (browser) => {
         let cep = document.querySelector('span[id="ctl00_cphContent_frmPreVisualiza_lblCep"]').innerText;
         let uf = document.querySelector('span[id="ctl00_cphContent_frmPreVisualiza_lblUf"]').innerText;
         //let texto = document.querySelector('span[id="ctl00_cphContent_frmPreVisualiza_lblDetalhes"]').getAttribute("value");
+        
         return {
             tipoDeEmpresa,
             dataDaConstituicao,
