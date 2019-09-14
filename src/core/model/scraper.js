@@ -34,8 +34,6 @@ class Scraper {
         await this.page.evaluate(() => {
             document.querySelector('button').click();
         })
-        console.log('fez login');
-        
     }
 }
 

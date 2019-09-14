@@ -1,57 +1,40 @@
-const { of, from } = require('rxjs');
-const { mergeMap, tap } = require('rxjs/operators');
+const { jucesp, siel, sivec, detran } = require('../../WebScraping');
+const Scraper = require('./model/scraper');
 
-// Importando arquivos e classes
-const Scraper = require('./controller/scraper')
-const { jucesp, siel, sivec, detran } = require('../../WebScraping')
+const run = async() => {
+    let mainUrl = "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com"
+    
+    const scraper = new Scraper({
+        headless: false
+    });
 
-var isLogin = false
+    let isLogin = false
 
-let mainUrl = "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com"
-
-const scraper = new Scraper({
-    headless: false
-});
-
-let portaisData = [];
-
-(async () => {
     try {
         await scraper.doCreate()
-
-        scraper.doListen('request', login)
-
-        await scraper.doRun(async (browser, page) => {
-            await page.goto(mainUrl)
-            
-            const jucesp$ = from(jucesp(browser))
-            const siel$ = from(siel(browser))
-            const sivec$ = from(sivec(browser))
-
-            of(jucesp$, siel$, sivec$)
-                .pipe(
-                    mergeMap(e => e),
-                    tap(val => portaisData.push(val))
-                )
-                .subscribe({
-                    error: err => console.log(err),
-                    complete: async () => {
-                        await browser.close()
-                        console.log(portaisData)
-                    }
-                })
+        
+        scraper.doListen('request', (request) => {
+            const frame = request.frame();
+            if (!isLogin && frame.url() !== "about:blank") {
+                isLogin = frame.url().includes('login')
+                if(isLogin) {
+                    scraper.doLogin()
+                }
+            }
         })
-    } catch (error) { }
-    debugger;
-})();
 
-login = (request) => {
-    const frame = request.frame();
-    if (!isLogin && frame.url() !== "about:blank") {
-        isLogin = frame.url().includes('login')
-        if(isLogin) {
-            scraper.doLogin()
-        }
+        return await scraper.doRun(async (browser, page) => {
+            await page.goto(mainUrl)
+            const portais = Promise.all([jucesp(browser), siel(browser), sivec(browser), detran(browser)])
+                .then(async(data) => {
+                    await browser.close()
+                    return data
+                })
+            return portais
+        })
+    } catch (error) {
+        return error
     }
-}
+};
 
+module.exports = { run }
