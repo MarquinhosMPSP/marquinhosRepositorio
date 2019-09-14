@@ -2,9 +2,8 @@ const scraper = require('../index')
 
 module.exports = {
   async consultar(req, res) {
-    const data = await scraper.run();
-    console.log('data', data);
-    
-    res.json(data)
+    scraper.run()
+      .then((data) => res.json(data))
+      .catch((err) => res.status(500).json({'message': 'Houve um erro ao gerar o relatório'}))
   }
 }
