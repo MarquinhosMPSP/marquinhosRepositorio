@@ -24,7 +24,7 @@ module.exports = {
     },
     async autenticar(req, res){
         const dados = req.body;
-        const usuario = await Usuario.findOne({cpf: dados.cpf, senha: dados.senha})
+        const usuario = await Usuario.findOne({cpf: dados.cpf, senha: dados.senha}, 'nome')
         if(!usuario)
             return res.status(404).json({"message":"CPF ou senha inválidos"});
         return res.json(usuario);
