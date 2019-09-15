@@ -7,9 +7,9 @@ const sivec = async (browser) => {
     let page = await browser.newPage();
     await page.goto(url, {waitUntil: 'networkidle2'});
     await page.focus('#nomeusuario');
-    await page.keyboard.type('Nome do usuario', {delay: 100});
+    await page.keyboard.type('Nome do usuario');
     await page.focus('#senhausuario');
-    await page.keyboard.type('senha1234', {delay: 100});
+    await page.keyboard.type('senha1234');
     await page.click('#Acessar')
 
     await page.waitForNavigation()
