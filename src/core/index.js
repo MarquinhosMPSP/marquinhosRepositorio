@@ -27,7 +27,7 @@ const run = async() => {
         // Retornar dados
         return await scraper.doRun(async (browser, page) => {
             await page.goto(mainUrl)
-            const portais = Promise.all([jucesp(browser), siel(browser), sivec(browser), cadesp(browser)])
+            const portais = Promise.all([sivec(browser)])
                 .then(async(data) => {
                     await browser.close()
                     return data

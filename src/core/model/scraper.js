@@ -14,6 +14,7 @@ class Scraper {
         try {
             return await cb(this.browser, this.page)
         } catch (error) {
+            console.log(error);
             this.doClose();
         }
     }
