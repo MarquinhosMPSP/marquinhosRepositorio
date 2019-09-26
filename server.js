@@ -12,7 +12,7 @@ app.use(express.json())
 app.use(cors());
 
 //iniciando o DB
-mongoose.connect('mongodb://localhost:27017/nodeapi', {useNewUrlParser: true});
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/nodeapi');
 
 requireDir('./src/models');
 
