@@ -1,4 +1,4 @@
-const { jucesp, siel, sivec, detran, cadesp } = require('../../WebScraping');
+const { jucesp, siel, sivec, detran, cadesp, censec, infocrim } = require('../../WebScraping');
 const Scraper = require('./model/scraper');
 
 const run = async() => {
@@ -27,7 +27,7 @@ const run = async() => {
         // Retornar dados
         return await scraper.doRun(async (browser, page) => {
             await page.goto(mainUrl)
-            const portais = Promise.all([sivec(browser)])
+            const portais = Promise.all([jucesp(browser)])
                 .then(async(data) => {
                     await browser.close()
                     return data

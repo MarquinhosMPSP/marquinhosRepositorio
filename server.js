@@ -5,6 +5,7 @@ const cors = require('cors');
 
 //iniciando o app
 const app = express();
+const port = process.env.PORT || 3001
 app.use(express.json())
 
 //configurando CORS - mudar dps para n permitir qlqr origin
@@ -17,7 +18,6 @@ requireDir('./src/models');
 
 app.use('/api', require('./src/routes'))
 
-app.listen(3001, () => {
-  console.log('Servidor rodando na porta 3001');
-  
+app.listen(port, () => {
+  console.log('Servidor rodando na porta ' + port)
 })
