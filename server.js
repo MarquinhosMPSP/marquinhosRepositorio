@@ -17,7 +17,6 @@ consign()
   .include('./src/models')
   .then('./src/controller')
   .then('./src/routes')
-  .then('./src/core')
   .into(app)
 
 //rodando o servidor
