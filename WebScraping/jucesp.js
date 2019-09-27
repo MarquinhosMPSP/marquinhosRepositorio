@@ -10,7 +10,7 @@ const jucesp = async (browser) => {
     try {
         await page.goto(url, { waitUntil: 'networkidle2' });
         await page.focus('#ctl00_cphContent_frmBuscaSimples_txtPalavraChave');
-        await page.keyboard.type('teste', { delay: 100 });
+        await page.keyboard.type('teste');
 
         await Promise.all([
             page.waitForNavigation(),
@@ -18,7 +18,7 @@ const jucesp = async (browser) => {
         ]);
 
         await page.focus('#formBuscaAvancada > table > tbody > tr:nth-child(1) > td > div > div:nth-child(2) > label > input');
-        await page.keyboard.type('pesquisar', { delay: 100 });
+        await page.keyboard.type('pesquisar');
 
         await Promise.all([
             page.waitForNavigation(),
