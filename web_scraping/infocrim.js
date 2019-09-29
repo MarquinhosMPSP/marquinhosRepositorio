@@ -1,6 +1,6 @@
+const moment = require('moment')
+
 const infocrim = async (browser) => {
-  const fs = require("fs");
-  const request = require("request-promise-native");
 
   console.log('entrou infocrim...');
 
@@ -30,14 +30,17 @@ const infocrim = async (browser) => {
       page.click('#cabec > td > a:nth-child(2)')
     ])
 
-    let fileBuffer = await request.get({ uri: page.url(), encoding: null });
-    console.log("Salvando o arquivo " + "infocrim.html" + "...");
-    fs.writeFileSync("infocrim.html", fileBuffer);
+    let file = `./PDFsAndImages/PDFs/46618865859_${moment().format('DD-MM-YYYY_HH-mm-ss')}_infocrim.pdf`
+    await page.emulateMedia('screen');
+    await page.pdf({path: file, format: 'A4', printBackground: true});
 
     await page.close();
 
-    return 'Ok'
+    return file
+
   } catch (error) {
+    console.log(error);
+    
     await page.close();
     return 'Ocorreu um erro'
   }
