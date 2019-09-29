@@ -28,7 +28,7 @@ const run = async() => {
             const portais = Promise.all([jucesp(browser)])
                 .then(async(data) => {
                     await browser.close()
-                    return data
+                    return Object.assign({}, ...data)
                 })
             return portais
         })
