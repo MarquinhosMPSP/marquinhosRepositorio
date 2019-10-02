@@ -4,12 +4,16 @@ const relatorioController = require('./relatorioController')
 module.exports = {
   async consultar(req, res) {
     const operacao = req.params.operacao;
-    if(operacao == 'update') 
-      run()
+    const usuario = req.params.usuario;
+    console.log(`${usuario} está fazendo um ${operacao}`);
+    if(operacao == 'update') { 
+      console.log('caiu no update');
+      run(usuario)
         .then((data) => res.status(200).json(data))
         .catch((err) => res.status(500).json({'message': 'Houve um erro ao gerar o relatório'}))
-     else 
+    }else{
       relatorioController.consultar(req, res)
+    } 
     
   }
 }
