@@ -1,6 +1,6 @@
 const moongose = require('mongoose')
 
-const relatorioSchema = moongose.Schema({
+const relatorioSchema = new moongose.Schema({
   usuario: {
     type: String,
     required: true
