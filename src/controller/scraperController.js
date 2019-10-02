@@ -1,4 +1,4 @@
-const run = require('../core/index')
+const scraper = require('../core/index')
 const relatorioController = require('./relatorioController')
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     console.log(`${usuario} está fazendo um ${operacao}`);
     if(operacao == 'update') { 
       console.log('caiu no update');
-      run(usuario)
+      scraper.run(usuario)
         .then((data) => res.status(200).json(data))
         .catch((err) => res.status(500).json({'message': 'Houve um erro ao gerar o relatório'}))
     }else{
