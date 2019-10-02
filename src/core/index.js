@@ -29,7 +29,7 @@ const run = async() => {
             const portais = Promise.all([jucesp(browser), siel(browser)])
                 .then(async(data) => {
                     await browser.close()
-                    data = Object.assign({usuario: 'Daniel Souza', dataRelatorio: moment().format('DD/MM/YYYY HH:mm:ss')}, ...data)
+                    data = Object.assign({usuario: 'Daniel', dataRelatorio: moment().format('DD/MM/YYYY HH:mm:ss')}, ...data)
                     const relatorio = await Relatorio.create(data)
                     return relatorio
                 })
