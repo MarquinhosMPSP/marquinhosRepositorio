@@ -13,5 +13,12 @@ module.exports = {
     const relatorio = await Relatorio.findOne({ usuario }, { __v: 0 }).sort({ dataRelatorio: 'desc' })
     if (!relatorio) return res.status(404).json(null);
     res.json(relatorio);
+  },
+  async consultarUm(req, res) {
+    const usuario = req.params.usuario;
+    const _id = req.params._id;
+    const relatorio = await Relatorio.findOne({ usuario, _id }, { __v: 0 }).sort({ dataRelatorio: 'desc' })
+    if (!relatorio) return res.status(404).json(null);
+    res.json(relatorio);
   }
 }
