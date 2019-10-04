@@ -16,8 +16,8 @@ module.exports = {
   },
   async consultarUm(req, res) {
     const usuario = req.params.usuario;
-    const _id = req.params._id;
-    const relatorio = await Relatorio.findOne({ usuario, _id }, { __v: 0 }).sort({ dataRelatorio: 'desc' })
+    const id = req.params.id;
+    const relatorio = await Relatorio.findOne({ usuario, _id: id }, { __v: 0 })
     if (!relatorio) return res.status(404).json(null);
     res.json(relatorio);
   }
