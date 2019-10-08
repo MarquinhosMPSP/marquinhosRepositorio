@@ -7,7 +7,11 @@ module.exports = {
     scraper
       .run(usuario)
       .then(data => {
+        console.log("finalizou");
+
         if (ownerSocket) {
+          console.log("retornando dados...");
+
           req.io.to(ownerSocket).emit("report", data);
         }
       })
