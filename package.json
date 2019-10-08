@@ -21,7 +21,8 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",
     "require-dir": "^1.2.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
