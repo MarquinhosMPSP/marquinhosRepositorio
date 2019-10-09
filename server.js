@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const consign = require("consign");
-const cors = require("cors");
+// const cors = require("cors");
 
 //iniciando e configurando o app e o WS
 const app = express();
@@ -11,7 +11,14 @@ const port = process.env.PORT || 3001;
 
 //configurando o express para usar JSON e liberar o CORS
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  return next();
+});
 
 io.configure(function() {
   io.set("transports", ["xhr-polling"]);
