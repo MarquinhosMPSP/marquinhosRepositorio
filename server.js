@@ -21,8 +21,8 @@ app.use((req, res, next) => {
 });
 
 io.configure(function() {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
+  io.set("transports", ["websocket"]);
+  // io.set("polling duration", 10);
 });
 
 //iniciando o DB
