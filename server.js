@@ -9,6 +9,14 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const port = process.env.PORT || 3001;
 
+let connectedUsers = {};
+
+io.on("connection", socket => {
+  const { user } = socket.handshake.query;
+
+  connectedUsers[user] = socket.id;
+});
+
 //configurando o express para usar JSON e liberar o CORS
 app.use(express.json());
 // app.use(cors());
@@ -28,14 +36,6 @@ mongoose.connect(
     useUnifiedTopology: true
   }
 );
-
-const connectedUsers = {};
-
-io.on("connection", socket => {
-  const { user } = socket.handshake.query;
-
-  connectedUsers[user] = socket.id;
-});
 
 app.use((req, res, next) => {
   req.io = io;
