@@ -20,11 +20,6 @@ app.use((req, res, next) => {
   return next();
 });
 
-io.configure(function() {
-  io.set("transports", ["websocket"]);
-  // io.set("polling duration", 10);
-});
-
 //iniciando o DB
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost:27017/nodeapi",
