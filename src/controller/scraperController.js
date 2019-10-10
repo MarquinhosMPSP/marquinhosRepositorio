@@ -4,6 +4,8 @@ module.exports = {
   async gerar(req, res) {
     const usuario = req.params.usuario;
     const ownerSocket = req.connectedUsers[usuario];
+    console.log(`usuário: ${usuario}`);
+    console.log("lista de usuários", req.connectedUsers);
     scraper
       .run(usuario)
       .then(data => {
