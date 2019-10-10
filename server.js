@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const consign = require("consign");
-// const cors = require("cors");
+const cors = require("cors");
 
 //iniciando e configurando o app e o WS
 const app = express();
@@ -9,24 +9,9 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const port = process.env.PORT || 3001;
 
-let connectedUsers = {};
-
-io.on("connection", socket => {
-  const { user } = socket.handshake.query;
-
-  connectedUsers[user] = socket.id;
-});
-
 //configurando o express para usar JSON e liberar o CORS
 app.use(express.json());
-// app.use(cors());
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
-  return next();
-});
+app.use(cors());
 
 //iniciando o DB
 mongoose.connect(
@@ -37,7 +22,21 @@ mongoose.connect(
   }
 );
 
+let connectedUsers = {};
+
+io.on("connection", socket => {
+  const { user } = socket.handshake.query;
+
+  console.log("user", user);
+  console.log("socket.handshake.query", socket.handshake.query);
+
+  connectedUsers[user] = socket.id;
+});
+
 app.use((req, res, next) => {
+  console.log("middleware");
+  console.log("connectedUsers", connectedUsers);
+
   req.io = io;
   req.connectedUsers = connectedUsers;
 
