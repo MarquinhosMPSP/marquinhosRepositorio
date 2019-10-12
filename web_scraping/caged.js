@@ -26,7 +26,7 @@ const caged = async browser => {
     );
     await page.type(
       "#formPesquisarAutorizado\\:txtChavePesquisaAutorizado014",
-      query
+      "teste"
     );
     await page.click(inputSubmit);
     await page.waitForSelector("#conteudo > fieldset:nth-child(4)");
@@ -59,7 +59,7 @@ const caged = async browser => {
     await page.waitForSelector(optionClick);
     await page.click(optionClick);
     await page.waitForSelector("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz");
-    await page.type("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz", query);
+    await page.type("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz", "teste");
     await page.click(inputSubmit);
     await page.waitForSelector("#formResumoEmpresaCaged\\:txtRazaoSocial");
     var empresa = await page.evaluate(() => {
@@ -168,6 +168,7 @@ const caged = async browser => {
     await page.close();
     return data;
   } catch (error) {
+    console.log(error);
     await page.close();
     return { errorCaged: "Ocorreu um erro" };
   }
