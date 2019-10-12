@@ -7,6 +7,7 @@ const censec = require("./censec");
 const infocrim = require("./infocrim");
 const arpenp = require("./arpenp");
 const caged = require("./caged");
+const arisp = require("./arisp");
 
 module.exports = {
   jucesp,
@@ -17,5 +18,6 @@ module.exports = {
   censec,
   infocrim,
   arpenp,
-  caged
+  caged,
+  arisp
 };
