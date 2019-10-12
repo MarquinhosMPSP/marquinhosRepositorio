@@ -48,8 +48,8 @@ module.exports = {
           censec(browser),
           infocrim(browser),
           arpenp(browser),
-          caged(browser),
-          detran(browser)
+          caged(browser)
+          // detran(browser)
           // arisp(browser)
         ]).then(async data => {
           await browser.close();
