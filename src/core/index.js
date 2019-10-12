@@ -5,7 +5,9 @@ const {
   detran,
   cadesp,
   censec,
-  infocrim
+  infocrim,
+  arpenp,
+  caged
 } = require("../../web_scraping");
 const Scraper = require("./scraper");
 const moongose = require("mongoose");
@@ -37,22 +39,31 @@ module.exports = {
       // Retornar dados
       return await scraper.doRun(async (browser, page) => {
         await page.goto(mainUrl);
-        const portais = Promise.all([jucesp(browser), siel(browser)]).then(
-          async data => {
-            await browser.close();
-            data = Object.assign(
-              {
-                usuario,
-                dataRelatorio: moment()
-                  .utcOffset("-0300")
-                  .format("DD/MM/YYYY HH:mm:ss")
-              },
-              ...data
-            );
-            const relatorio = await Relatorio.create(data);
-            return relatorio;
-          }
-        );
+        const portais = Promise.all([
+          jucesp(browser),
+          siel(browser),
+          sivec(browser),
+          cadesp(browser),
+          censec(browser),
+          infocrim(browser),
+          arpenp(browser),
+          caged(browser)
+        ]).then(async data => {
+          console.log("Data", data);
+          await browser.close();
+          data = Object.assign(
+            {
+              usuario,
+              dataRelatorio: moment()
+                .utcOffset("-0300")
+                .format("DD/MM/YYYY HH:mm:ss")
+            },
+            ...data
+          );
+          console.log("Data 2", data);
+          const relatorio = await Relatorio.create(data);
+          return relatorio;
+        });
         return portais;
       });
     } catch (error) {

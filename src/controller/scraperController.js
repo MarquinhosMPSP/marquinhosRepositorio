@@ -12,8 +12,6 @@ module.exports = {
         console.log("finalizou");
 
         if (ownerSocket) {
-          console.log("retornando dados...");
-
           req.io.to(ownerSocket).emit("report", data);
         }
       })
