@@ -27,16 +27,10 @@ let connectedUsers = {};
 io.on("connection", socket => {
   const { user } = socket.handshake.query;
 
-  console.log("user", user);
-  console.log("socket.handshake.query", socket.handshake.query);
-
   connectedUsers[user] = socket.id;
 });
 
 app.use((req, res, next) => {
-  console.log("middleware");
-  console.log("connectedUsers", connectedUsers);
-
   req.io = io;
   req.connectedUsers = connectedUsers;
 

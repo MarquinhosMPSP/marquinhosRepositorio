@@ -15,13 +15,17 @@ const arpenp = async browser => {
       ),
       page.waitForNavigation()
     ]);
+
     await Promise.all([
-      page.waitForNavigation(),
       await page.click("li.item3 > a "),
-      await page.waitForSelector("li.subitem1 > a"),
-      await page.hover("#wrapper > ul > li.item3 > ul > li:nth-child(1) > a"),
-      await page.click("#wrapper > ul > li.item3 > ul > li:nth-child(1) > a")
+      await page.waitForSelector("li.subitem1 > a")
     ]);
+
+    let selector = "#wrapper > ul > li.item3 > ul > li:nth-child(1) > a";
+    await page.evaluate(
+      selector => document.querySelector(selector).click(),
+      selector
+    );
 
     await page.waitForSelector(
       '#principal > div > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type="text"]'
@@ -29,7 +33,7 @@ const arpenp = async browser => {
     await page.focus(
       '#principal > div > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type="text"]'
     );
-    await page.keyboard.type("nprocesso", { delay: 10 });
+    await page.keyboard.type("nprocesso");
     await page.click("#btn_pesquisar");
 
     await page.waitForSelector(
@@ -110,8 +114,6 @@ const arpenp = async browser => {
 
     return data;
   } catch (error) {
-    console.log(error);
-
     await page.close();
     return { errorArpenp: "Ocorreu um erro" };
   }

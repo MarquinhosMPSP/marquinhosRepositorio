@@ -12,11 +12,11 @@ const siel = async browser => {
       "body > div.canvas > div.conteudo > div.mioloInterna.apps > form > table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=text]"
     );
 
-    await page.keyboard.type("email@email", { delay: 100 });
+    await page.keyboard.type("email@email");
     await page.focus(
       "body > div.canvas > div.conteudo > div.mioloInterna.apps > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=password]"
     );
-    await page.keyboard.type("senha", { delay: 100 });
+    await page.keyboard.type("senha");
 
     await Promise.all([
       page.waitForNavigation(),
@@ -29,12 +29,12 @@ const siel = async browser => {
       page.focus(
         "body > div.canvas > div.conteudo > div.mioloInterna.apps > form.formulario > fieldset:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=text]"
       ),
-      page.keyboard.type(" nome do usuario", { delay: 100 })
+      page.keyboard.type(" nome do usuario")
     ]);
 
     await Promise.all([
       page.focus("#num_processo"),
-      page.keyboard.type(" 123456", { delay: 100 })
+      page.keyboard.type(" 123456")
     ]);
 
     await Promise.all([
