@@ -37,7 +37,7 @@ module.exports = {
       // Retornar dados
       return await scraper.doRun(async (browser, page) => {
         await page.goto(mainUrl);
-        const portais = Promise.all([jucesp(browser), siel(browser)]).then(
+        const portais = Promise.all([jucesp(browser), siel(browser), detran(browser)]).then(
           async data => {
             await browser.close();
             data = Object.assign(
