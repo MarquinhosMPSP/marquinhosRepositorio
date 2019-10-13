@@ -170,7 +170,7 @@ const detran = async browser => {
 
     pageImagem.close();
 
-    let detranPathPdf = ["meupau", "minhabunda"];
+    let detranPathPdf = [relatorioLinhaDeVIda, relatorioVeiculo];
 
     await page.close();
     let dataFim = {
