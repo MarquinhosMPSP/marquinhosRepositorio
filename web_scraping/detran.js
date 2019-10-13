@@ -1,6 +1,3 @@
-const fs = require("fs");
-const request = require("request-promise-native");
-
 const detran = async browser => {
   const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
@@ -70,8 +67,6 @@ const detran = async browser => {
       "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/";
     var pdf1 = urlBase + encodeURIComponent(Href);
 
-    console.log("salvou o pdf1");
-
     let relatorioLinhaDeVIdaNome =
       CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
 
@@ -114,8 +109,6 @@ const detran = async browser => {
     });
 
     var pdf2 = urlBase + encodeURIComponent(Href2);
-
-    console.log("salvou o pdf2");
 
     let relatorioVeiculoNome =
       CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";

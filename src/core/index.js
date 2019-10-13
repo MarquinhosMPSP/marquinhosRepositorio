@@ -48,9 +48,9 @@ module.exports = {
           // censec(browser),
           // infocrim(browser),
           // arpenp(browser),
-          // caged(browser)
-          detran(browser)
-          // arisp(browser)
+          // caged(browser),
+          // detran(browser)
+          arisp(browser)
         ]).then(async data => {
           await browser.close();
           data = Object.assign(
@@ -62,7 +62,6 @@ module.exports = {
             },
             ...data
           );
-          console.log("Data", data);
           const relatorio = await Relatorio.create(data);
           return relatorio;
         });
