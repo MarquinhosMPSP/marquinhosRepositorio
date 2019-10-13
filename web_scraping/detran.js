@@ -68,23 +68,7 @@ const detran = async browser => {
 
     let urlBase =
       "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/";
-    var pdf1 = urlBase + Href;
-
-    // console.log("pdfUrl", pdf1);
-
-    // async function downloadPDF(pdfURL, outputFilename) {
-    //   let pdfBuffer = await request.get({
-    //     uri: pdfURL,
-    //     encoding: null
-    //   });
-    //   console.log("Writing downloaded PDF file to " + outputFilename + "...");
-    //   fs.writeFileSync(outputFilename, pdfBuffer);
-    // }
-
-    // downloadPDF(
-    //   "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/pagina6-relat%c3%b3rio-linha-de-vida.pdf",
-    //   "./PDFsAndImages/PDFs/teste.pdf"
-    // );
+    var pdf1 = urlBase + encodeURIComponent(Href);
 
     console.log("salvou o pdf1");
 
@@ -97,7 +81,7 @@ const detran = async browser => {
     };
 
     download(pdf1, options, function(err) {
-      if (err) console.log(err);
+      if (err) throw err;
     });
     let relatorioLinhaDeVIda =
       pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
@@ -129,9 +113,7 @@ const detran = async browser => {
       return href;
     });
 
-    var pdf2 = urlBase + Href2;
-
-    // downloadPDF(pdf2, "./PDFsAndImages/PDFs/teste.pdf");
+    var pdf2 = urlBase + encodeURIComponent(Href2);
 
     console.log("salvou o pdf2");
 
