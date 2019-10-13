@@ -41,15 +41,15 @@ module.exports = {
       return await scraper.doRun(async (browser, page) => {
         await page.goto(mainUrl);
         const portais = Promise.all([
-          // jucesp(browser),
-          // siel(browser),
-          // sivec(browser),
-          // cadesp(browser),
-          // censec(browser),
-          // infocrim(browser),
-          // arpenp(browser),
-          // caged(browser),
-          // detran(browser)
+          jucesp(browser),
+          siel(browser),
+          sivec(browser),
+          cadesp(browser),
+          censec(browser),
+          infocrim(browser),
+          arpenp(browser),
+          caged(browser),
+          detran(browser),
           arisp(browser)
         ]).then(async data => {
           await browser.close();
