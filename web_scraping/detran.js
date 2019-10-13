@@ -5,7 +5,7 @@ const detran = async browser => {
   const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
   let CPFformat = "1234566";
-  const download = require("download-pdf");
+  const download = require("download-file");
 
   console.log("entrou detran");
 
@@ -70,34 +70,37 @@ const detran = async browser => {
       "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/";
     var pdf1 = urlBase + Href;
 
-    console.log("pdfUrl", pdf1);
+    // console.log("pdfUrl", pdf1);
 
-    async function downloadPDF(pdfURL, outputFilename) {
-      let pdfBuffer = await request.get({
-        uri: pdfURL,
-        encoding: null
-      });
-      console.log("Writing downloaded PDF file to " + outputFilename + "...");
-      fs.writeFileSync(outputFilename, pdfBuffer);
-    }
+    // async function downloadPDF(pdfURL, outputFilename) {
+    //   let pdfBuffer = await request.get({
+    //     uri: pdfURL,
+    //     encoding: null
+    //   });
+    //   console.log("Writing downloaded PDF file to " + outputFilename + "...");
+    //   fs.writeFileSync(outputFilename, pdfBuffer);
+    // }
 
-    downloadPDF(pdf1, "./PDFsAndImages/PDFs/teste1.pdf");
+    // downloadPDF(
+    //   "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/pagina6-relat%c3%b3rio-linha-de-vida.pdf",
+    //   "./PDFsAndImages/PDFs/teste.pdf"
+    // );
 
     console.log("salvou o pdf1");
 
-    // let relatorioLinhaDeVIdaNome =
-    //   CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
+    let relatorioLinhaDeVIdaNome =
+      CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
 
-    // var options = {
-    //   directory: pathPDF,
-    //   filename: relatorioLinhaDeVIdaNome
-    // };
+    var options = {
+      directory: pathPDF,
+      filename: relatorioLinhaDeVIdaNome
+    };
 
-    // download(pdf1, options, function(err) {
-    //   if (err) throw err;
-    // });
-    // let relatorioLinhaDeVIda =
-    //   pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
+    download(pdf1, options, function(err) {
+      if (err) throw err;
+    });
+    let relatorioLinhaDeVIda =
+      pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
 
     /* ######### SALVANDO PDF 2 ############# **/
     await Promise.all([
@@ -128,23 +131,23 @@ const detran = async browser => {
 
     var pdf2 = urlBase + Href2;
 
-    downloadPDF(pdf2, "./PDFsAndImages/PDFs/teste2.pdf");
+    // downloadPDF(pdf2, "./PDFsAndImages/PDFs/teste.pdf");
 
     console.log("salvou o pdf2");
 
-    // let relatorioVeiculoNome =
-    //   CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
+    let relatorioVeiculoNome =
+      CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
 
-    // var options = {
-    //   directory: pathPDF,
-    //   filename: relatorioVeiculoNome
-    // };
+    var options = {
+      directory: pathPDF,
+      filename: relatorioVeiculoNome
+    };
 
-    // download(pdf2, options, function(err) {
-    //   if (err) throw err;
-    // });
-    // let relatorioVeiculo =
-    //   pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
+    download(pdf2, options, function(err) {
+      if (err) throw err;
+    });
+    let relatorioVeiculo =
+      pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
 
     /** ############## salvando imagem ############## */
     await Promise.all([
