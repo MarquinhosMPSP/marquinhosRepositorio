@@ -26,6 +26,7 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "download-pdf": "^0.1.6"
   }
 }
