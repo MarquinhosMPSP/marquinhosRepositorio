@@ -12,6 +12,7 @@ const port = process.env.PORT || 3001;
 //configurando o express para usar JSON e liberar o CORS
 app.use(express.json());
 app.use(cors());
+app.use("/static", express.static(__dirname + "/PDFsAndImages"));
 
 //iniciando o DB
 mongoose.connect(

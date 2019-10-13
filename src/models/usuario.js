@@ -16,7 +16,7 @@ const usuarioSchema = new mongoose.Schema({
     unique: true
   },
   createdAt: {
-    type: Date,
+    type: String,
     default: moment()
       .utcOffset("-0300")
       .toDate()

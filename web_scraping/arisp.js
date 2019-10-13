@@ -28,11 +28,7 @@ const arisp = async browser => {
       page.waitForNavigation()
     ]);
 
-    console.log("prosseguir");
-
     await Promise.all([page.click("#Prosseguir"), page.waitForNavigation()]);
-
-    console.log("passou");
 
     await Promise.all([
       page.click(
@@ -85,7 +81,7 @@ const arisp = async browser => {
       let href = document.querySelector("body > a").getAttribute("href");
       return href;
     });
-    var pdf1 = urlBase + Hreffinal;
+    var pdf1 = urlBase + encodeURIComponent(Hreffinal);
     let pathPDF = "PDFsAndImages/PDFs/";
     let CPFformat = "1234566";
     let relatorioLinhaDeVIdaNome =
