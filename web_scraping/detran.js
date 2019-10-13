@@ -25,12 +25,15 @@ const detran = async browser => {
     );
     await page.keyboard.type("senha1234");
 
+    console.log(1);
+
     await Promise.all([
       page.waitForNavigation(),
       page.click(
         'button[class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only botao"]'
       )
     ]);
+    console.log(2);
 
     /* ############### SALVANDO PDF 1 ############### **/
     await Promise.all([
@@ -39,6 +42,8 @@ const detran = async browser => {
       await page.hover("#navigation_a_M_16"),
       page.click("#navigation_a_F_16")
     ]);
+
+    console.log(3);
 
     await page.focus(
       'input[class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all"]'
@@ -54,6 +59,8 @@ const detran = async browser => {
     await page.focus('tr:nth-child(2)> td[class="coluna2"] > input');
     await page.keyboard.type("CNPJ");
 
+    console.log(4);
+
     const Href = await page.evaluate(() => {
       let href = document
         .querySelector(
@@ -62,6 +69,8 @@ const detran = async browser => {
         .getAttribute("href");
       return href;
     });
+
+    console.log(5);
 
     let urlBase =
       "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/";
@@ -88,6 +97,8 @@ const detran = async browser => {
       page.click("#navigation_a_F_18")
     ]);
 
+    console.log(6);
+
     await page.focus(
       'input[class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"]'
     );
@@ -97,6 +108,8 @@ const detran = async browser => {
       'input[class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all"]'
     );
     await page.keyboard.type("CPF OU CNPJ");
+
+    console.log(7);
 
     const Href2 = await page.evaluate(() => {
       let href = document
@@ -116,6 +129,8 @@ const detran = async browser => {
       filename: relatorioVeiculoNome
     };
 
+    console.log(8);
+
     download(pdf2, options, function(err) {
       if (err) throw err;
     });
@@ -130,6 +145,8 @@ const detran = async browser => {
       page.click('a[href="pagina4-pesquisa-imagem-cnh.html"]')
     ]);
 
+    console.log(9);
+
     await page.focus(
       'input[class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"]'
     );
@@ -140,6 +157,8 @@ const detran = async browser => {
     );
     await page.keyboard.type("CPF");
 
+    console.log(10);
+
     const newPage2Promise = new Promise(x =>
       browser.once("targetcreated", target => x(target.page()))
     );
@@ -148,9 +167,13 @@ const detran = async browser => {
 
     var data2 = newPage2.url();
 
+    console.log(11);
+
     let pageImagem = await browser.newPage();
     pageImagem.setViewport({ width: 1400, height: 1200, deviceScaleFactor: 2 });
     await pageImagem.goto(data2, { waitUntil: "networkidle2" });
+
+    console.log(12);
 
     await pageImagem.screenshot({
       path: pathImages + CPFformat + "_" + sysdateFormat + "_" + "detran.png",
@@ -159,7 +182,11 @@ const detran = async browser => {
     let detranPathImg =
       pathImages + CPFformat + "_" + sysdateFormat + "_" + "detran.png";
 
+    console.log(13);
+
     pageImagem.close();
+
+    console.log(14);
 
     let detranPathPdf = [relatorioLinhaDeVIda, relatorioVeiculo];
 
@@ -168,6 +195,8 @@ const detran = async browser => {
       detranPathPdf,
       detranPathImg
     };
+
+    console.log(15);
 
     return dataFim;
   } catch (error) {
