@@ -97,7 +97,7 @@ const detran = async browser => {
     };
 
     download(pdf1, options, function(err) {
-      if (err) throw err;
+      if (err) console.log(err);
     });
     let relatorioLinhaDeVIda =
       pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
