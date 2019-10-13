@@ -1,3 +1,6 @@
+const fs = require("fs");
+const request = require("request-promise-native");
+
 const detran = async browser => {
   const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
@@ -25,15 +28,12 @@ const detran = async browser => {
     );
     await page.keyboard.type("senha1234");
 
-    console.log(1);
-
     await Promise.all([
       page.waitForNavigation(),
       page.click(
         'button[class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only botao"]'
       )
     ]);
-    console.log(2);
 
     /* ############### SALVANDO PDF 1 ############### **/
     await Promise.all([
@@ -42,8 +42,6 @@ const detran = async browser => {
       await page.hover("#navigation_a_M_16"),
       page.click("#navigation_a_F_16")
     ]);
-
-    console.log(3);
 
     await page.focus(
       'input[class="ui-inputfield ui-inputmask ui-widget ui-state-default ui-corner-all"]'
@@ -59,8 +57,6 @@ const detran = async browser => {
     await page.focus('tr:nth-child(2)> td[class="coluna2"] > input');
     await page.keyboard.type("CNPJ");
 
-    console.log(4);
-
     const Href = await page.evaluate(() => {
       let href = document
         .querySelector(
@@ -70,24 +66,38 @@ const detran = async browser => {
       return href;
     });
 
-    console.log(5);
-
     let urlBase =
       "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/";
     var pdf1 = urlBase + Href;
-    let relatorioLinhaDeVIdaNome =
-      CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
 
-    var options = {
-      directory: pathPDF,
-      filename: relatorioLinhaDeVIdaNome
-    };
+    console.log("pdfUrl", pdf1);
 
-    download(pdf1, options, function(err) {
-      if (err) throw err;
-    });
-    let relatorioLinhaDeVIda =
-      pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
+    async function downloadPDF(pdfURL, outputFilename) {
+      let pdfBuffer = await request.get({
+        uri: pdfURL,
+        encoding: null
+      });
+      console.log("Writing downloaded PDF file to " + outputFilename + "...");
+      fs.writeFileSync(outputFilename, pdfBuffer);
+    }
+
+    downloadPDF(pdf1, "./PDFsAndImages/PDFs/teste1.pdf");
+
+    console.log("salvou o pdf1");
+
+    // let relatorioLinhaDeVIdaNome =
+    //   CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
+
+    // var options = {
+    //   directory: pathPDF,
+    //   filename: relatorioLinhaDeVIdaNome
+    // };
+
+    // download(pdf1, options, function(err) {
+    //   if (err) throw err;
+    // });
+    // let relatorioLinhaDeVIda =
+    //   pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
 
     /* ######### SALVANDO PDF 2 ############# **/
     await Promise.all([
@@ -96,8 +106,6 @@ const detran = async browser => {
       await page.hover("#navigation_a_M_18"),
       page.click("#navigation_a_F_18")
     ]);
-
-    console.log(6);
 
     await page.focus(
       'input[class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"]'
@@ -109,8 +117,6 @@ const detran = async browser => {
     );
     await page.keyboard.type("CPF OU CNPJ");
 
-    console.log(7);
-
     const Href2 = await page.evaluate(() => {
       let href = document
         .querySelector(
@@ -121,21 +127,24 @@ const detran = async browser => {
     });
 
     var pdf2 = urlBase + Href2;
-    let relatorioVeiculoNome =
-      CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
 
-    var options = {
-      directory: pathPDF,
-      filename: relatorioVeiculoNome
-    };
+    downloadPDF(pdf2, "./PDFsAndImages/PDFs/teste2.pdf");
 
-    console.log(8);
+    console.log("salvou o pdf2");
 
-    download(pdf2, options, function(err) {
-      if (err) throw err;
-    });
-    let relatorioVeiculo =
-      pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
+    // let relatorioVeiculoNome =
+    //   CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
+
+    // var options = {
+    //   directory: pathPDF,
+    //   filename: relatorioVeiculoNome
+    // };
+
+    // download(pdf2, options, function(err) {
+    //   if (err) throw err;
+    // });
+    // let relatorioVeiculo =
+    //   pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
 
     /** ############## salvando imagem ############## */
     await Promise.all([
@@ -144,8 +153,6 @@ const detran = async browser => {
       await page.hover("#navigation_a_M_16"),
       page.click('a[href="pagina4-pesquisa-imagem-cnh.html"]')
     ]);
-
-    console.log(9);
 
     await page.focus(
       'input[class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all"]'
@@ -157,8 +164,6 @@ const detran = async browser => {
     );
     await page.keyboard.type("CPF");
 
-    console.log(10);
-
     const newPage2Promise = new Promise(x =>
       browser.once("targetcreated", target => x(target.page()))
     );
@@ -167,13 +172,9 @@ const detran = async browser => {
 
     var data2 = newPage2.url();
 
-    console.log(11);
-
     let pageImagem = await browser.newPage();
     pageImagem.setViewport({ width: 1400, height: 1200, deviceScaleFactor: 2 });
     await pageImagem.goto(data2, { waitUntil: "networkidle2" });
-
-    console.log(12);
 
     await pageImagem.screenshot({
       path: pathImages + CPFformat + "_" + sysdateFormat + "_" + "detran.png",
@@ -182,21 +183,15 @@ const detran = async browser => {
     let detranPathImg =
       pathImages + CPFformat + "_" + sysdateFormat + "_" + "detran.png";
 
-    console.log(13);
-
     pageImagem.close();
 
-    console.log(14);
-
-    let detranPathPdf = [relatorioLinhaDeVIda, relatorioVeiculo];
+    let detranPathPdf = ["meupau", "minhabunda"];
 
     await page.close();
     let dataFim = {
       detranPathPdf,
       detranPathImg
     };
-
-    console.log(15);
 
     return dataFim;
   } catch (error) {
