@@ -29,7 +29,7 @@ const infocrim = async browser => {
 
     await Promise.all([page.click("#cabec > td > a:nth-child(2)")]);
 
-    let file = `./PDFsAndImages/PDFs/46618865859_${moment().format(
+    let file = `${__dirname}/PDFsAndImages/PDFs/46618865859_${moment().format(
       "DD-MM-YYYY_HH-mm-ss"
     )}_infocrim.pdf`;
     await page.emulateMedia("screen");

@@ -82,7 +82,7 @@ const arisp = async browser => {
       return href;
     });
     var pdf1 = urlBase + encodeURIComponent(Hreffinal);
-    let pathPDF = "PDFsAndImages/PDFs/";
+    let pathPDF = __dirname + "/PDFsAndImages/PDFs/";
     let CPFformat = "1234566";
     let relatorioLinhaDeVIdaNome =
       CPFformat + "_" + sysdateFormat + "_" + "arisp.pdf";

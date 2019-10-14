@@ -6,8 +6,8 @@ const detran = async browser => {
 
   console.log("entrou detran");
 
-  let pathPDF = "PDFsAndImages/PDFs/";
-  let pathImages = "PDFsAndImages/Images/";
+  let pathPDF = __dirname + "/PDFsAndImages/PDFs/";
+  let pathImages = __dirname + "/PDFsAndImages/Images/";
 
   let url =
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/login.html";
