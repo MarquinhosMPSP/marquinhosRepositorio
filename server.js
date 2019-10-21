@@ -9,6 +9,8 @@ const server = require("http").Server(app);
 const io = require("socket.io")(server);
 const port = process.env.PORT || 3001;
 
+global.__filesPath = __dirname + "/PDFsAndImages";
+
 //configurando o express para usar JSON e liberar o CORS
 app.use(express.json());
 app.use(cors());

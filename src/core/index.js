@@ -62,6 +62,8 @@ module.exports = {
             },
             ...data
           );
+          console.log(data);
+
           const relatorio = await Relatorio.create(data);
           return relatorio;
         });

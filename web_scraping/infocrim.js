@@ -1,10 +1,14 @@
 const moment = require("moment");
+const download = require("download-pdf");
 
 const infocrim = async browser => {
   console.log("entrou infocrim");
 
   let url =
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/infocrim/login.html";
+  let urlBase =
+    "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/infocrim/login.html";
+  let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
 
   let page = await browser.newPage();
 
@@ -29,15 +33,16 @@ const infocrim = async browser => {
 
     await Promise.all([page.click("#cabec > td > a:nth-child(2)")]);
 
-    let file = `${__dirname}/PDFsAndImages/PDFs/46618865859_${moment().format(
+    let path = __filesPath + "/PDFs/";
+    let file = `46618865859_${moment().format(
       "DD-MM-YYYY_HH-mm-ss"
     )}_infocrim.pdf`;
-    await page.emulateMedia("screen");
-    await page.pdf({ path: file, format: "A4", printBackground: true });
+    await page.emulateMedia("print");
+    await page.pdf({ path: path + file, format: "A4" });
 
     await page.close();
 
-    return { infocrimPathPdf: file };
+    return { infocrimPathPdf: "/static/PDFs/" + file };
   } catch (error) {
     console.log(error);
 

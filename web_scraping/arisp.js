@@ -20,7 +20,10 @@ const arisp = async browser => {
 
     await Promise.all([
       await page.waitForSelector("#liInstituicoes > a"),
-      page.hover("#liInstituicoes > a"),
+      page.hover("#liInstituicoes > a")
+    ]);
+
+    await Promise.all([
       await page.waitForSelector(
         "#liInstituicoes > div > ul > li:nth-child(3) > a"
       ),
@@ -82,7 +85,7 @@ const arisp = async browser => {
       return href;
     });
     var pdf1 = urlBase + encodeURIComponent(Hreffinal);
-    let pathPDF = __dirname + "/PDFsAndImages/PDFs/";
+    let pathPDF = __filesPath + "/PDFs/";
     let CPFformat = "1234566";
     let relatorioLinhaDeVIdaNome =
       CPFformat + "_" + sysdateFormat + "_" + "arisp.pdf";
@@ -97,7 +100,7 @@ const arisp = async browser => {
     await page.close();
     await newPage1.close();
 
-    return { arispPathPDF: pathPDF + relatorioLinhaDeVIdaNome };
+    return { arispPathPdf: "/static/PDFs/" + relatorioLinhaDeVIdaNome };
   } catch (error) {
     console.log(error);
     await page.close();

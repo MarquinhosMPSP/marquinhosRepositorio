@@ -6,8 +6,8 @@ const detran = async browser => {
 
   console.log("entrou detran");
 
-  let pathPDF = __dirname + "/PDFsAndImages/PDFs/";
-  let pathImages = __dirname + "/PDFsAndImages/Images/";
+  let pathPDF = __filesPath + "/PDFs/";
+  let pathImages = __filesPath + "/Images/";
 
   let url =
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/detran/login.html";
@@ -159,11 +159,14 @@ const detran = async browser => {
       clip: { x: 410, y: 340, width: 767, height: 400 }
     });
     let detranPathImg =
-      pathImages + CPFformat + "_" + sysdateFormat + "_" + "detran.png";
+      "/static/Images/" + CPFformat + "_" + sysdateFormat + "_" + "detran.png";
 
     pageImagem.close();
 
-    let detranPathPdf = [relatorioLinhaDeVIda, relatorioVeiculo];
+    let detranPathPdf = [
+      "/static/PDFs/" + relatorioLinhaDeVIdaNome,
+      "/static/PDFs/" + relatorioVeiculoNome
+    ];
 
     await page.close();
     let dataFim = {

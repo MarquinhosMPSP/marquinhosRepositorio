@@ -1,4 +1,4 @@
-const moongose = require('mongoose')
+const moongose = require("mongoose");
 
 const relatorioSchema = new moongose.Schema({
   usuario: {
@@ -88,7 +88,7 @@ const relatorioSchema = new moongose.Schema({
     type: String
   },
   dtEmissaoRg: {
-    type: String 
+    type: String
   },
   estadoCivil: {
     type: String
@@ -256,20 +256,23 @@ const relatorioSchema = new moongose.Schema({
     type: String
   },
   autorizado_responsavel: {
-    type: Array
+    type: Object
   },
   empresa: {
-    type: Array
+    type: Object
   },
   trabalhador: {
-    type: Array
+    type: Object
   },
   detranPathPdf: {
     type: Array
   },
   detranPathImg: {
     type: String
+  },
+  arispPathPdf: {
+    type: String
   }
-})
+});
 
-moongose.model('relatorioModel', relatorioSchema)
+moongose.model("relatorioModel", relatorioSchema);
