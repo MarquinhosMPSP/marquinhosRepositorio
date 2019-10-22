@@ -15,9 +15,72 @@ const moongose = require("mongoose");
 const moment = require("moment");
 const Relatorio = moongose.model("relatorioModel");
 
+const isValid = require("../helper/isValid");
+
 module.exports = {
-  async run(usuario) {
+  async run(usuario, cpf, rg, nome, cnpj, empresa, nrprocesso, pispasep) {
     let mainUrl = "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com";
+
+    const portalsToScrap = [
+      {
+        name: "jucesp",
+        method: jucesp,
+        valid: isValid(empresa),
+        params: [empresa]
+      },
+      {
+        name: "siel",
+        method: siel,
+        valid: isValid(nome) && isValid(nrprocesso),
+        params: [nome, nrprocesso]
+      },
+      {
+        name: "sivec",
+        method: sivec,
+        valid: isValid(rg) && isValid(nome),
+        params: [rg, nome]
+      },
+      {
+        name: "detran",
+        method: detran,
+        valid: isValid(cpf) || isValid(cnpj),
+        params: [cpf || cnpj]
+      },
+      { name: "cadesp", method: cadesp, valid: isValid(cnpj), params: [cnpj] },
+      {
+        name: "censec",
+        method: censec,
+        valid: isValid(cpf) || isValid(cnpj),
+        params: [cpf || cnpj]
+      },
+      { name: "infocrim", method: infocrim, valid: true, params: [] },
+      {
+        name: "arpenp",
+        method: arpenp,
+        valid: isValid(nrprocesso),
+        params: [nrprocesso]
+      },
+      {
+        name: "caged",
+        method: caged,
+        valid: isValid(cnpj) && isValid(pispasep),
+        params: [cnpj, pispasep]
+      },
+      {
+        name: "arisp",
+        method: arisp,
+        valid: isValid(cpf) || isValid(cnpj),
+        params: [cpf || cnpj]
+      }
+    ];
+
+    // let data = portais
+    //   .filter(item => item.valid)
+    //   .map(({ params }) => () => obj.method(...params));
+
+    // console.log("dados", data);
+
+    // return;
 
     const scraper = new Scraper({
       args: ["--no-sandbox", "--disable-setuid-sandbox"]
@@ -40,18 +103,11 @@ module.exports = {
       // Retornar dados
       return await scraper.doRun(async (browser, page) => {
         await page.goto(mainUrl);
-        const portais = Promise.all([
-          jucesp(browser),
-          siel(browser),
-          sivec(browser),
-          cadesp(browser),
-          censec(browser),
-          infocrim(browser),
-          arpenp(browser),
-          caged(browser),
-          detran(browser),
-          arisp(browser)
-        ]).then(async data => {
+        const portals = Promise.all(
+          portalsToScrap
+            .filter(item => item.valid)
+            .map(obj => obj.method(browser, ...obj.params))
+        ).then(async data => {
           await browser.close();
           data = Object.assign(
             {
@@ -67,7 +123,7 @@ module.exports = {
           const relatorio = await Relatorio.create(data);
           return relatorio;
         });
-        return portais;
+        return portals;
       });
     } catch (error) {
       return error;

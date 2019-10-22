@@ -2,15 +2,23 @@ const scraper = require("../core/index");
 
 module.exports = {
   async gerar(req, res) {
-    const usuario = req.params.usuario;
+    const {
+      usuario,
+      cpf,
+      rg,
+      nome,
+      cnpj,
+      empresa,
+      nrprocesso,
+      pispasep
+    } = req.body;
     const ownerSocket = req.connectedUsers[usuario];
-    console.log(`usuário: ${usuario}`);
-    console.log("lista de usuários", req.connectedUsers);
+    // console.log(`usuário: ${usuario}`);
+    // console.log("lista de usuários", req.connectedUsers);
     scraper
-      .run(usuario)
+      .run(usuario, cpf, rg, nome, cnpj, empresa, nrprocesso, pispasep)
       .then(data => {
         console.log("finalizou");
-
         if (ownerSocket) {
           req.io.to(ownerSocket).emit("report", data);
         }
