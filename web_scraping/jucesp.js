@@ -1,10 +1,20 @@
 // const puppeteer = require('puppeteer');
 
 const jucesp = async browser => {
+  const moment = require("moment");
+  let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
+  let CPFformat = "1234566";
+  const download = require("download-file");
+
   console.log("entrou jucesp");
+
+  let pathPDF = __filesPath + "/PDFs/";
 
   let url =
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/jucesp/index.html";
+
+  let urlBase =
+    "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/jucesp/";
 
   let page = await browser.newPage();
   try {
@@ -37,6 +47,29 @@ const jucesp = async browser => {
         "#ctl00_cphContent_gdvResultadoBusca_gdvContent_ctl02_lbtSelecionar"
       )
     ]);
+
+    const Href = await page.evaluate(() => {
+      let href = document
+        .querySelector("#ctl00_cphContent_frmPreVisualiza_UpdatePanel2 > input")
+        .getAttribute("onclick");
+      return href;
+    });
+    //window.location='pagina6-ficha-cadastral-simplificada-relatorio.pdf'
+    var HrefTratada = Href.split("='")[1].split("'")[0];
+    var pdf1 = urlBase + encodeURIComponent(HrefTratada);
+
+    let jucespPdf = CPFformat + "_" + sysdateFormat + "_" + "jucesp.pdf";
+
+    var options = {
+      directory: pathPDF,
+      filename: jucespPdf
+    };
+
+    const jucespPathPdf = "/static/PDFs/" + jucespPdf;
+
+    download(pdf1, options, function(err) {
+      if (err) throw err;
+    });
 
     let data = await page.evaluate(() => {
       let tipoDeEmpresa = document.querySelector(
@@ -75,6 +108,9 @@ const jucesp = async browser => {
       let uf = document.querySelector(
         'span[id="ctl00_cphContent_frmPreVisualiza_lblUf"]'
       ).innerText;
+      let nomeDaEmpresa = document.querySelector(
+        "#ctl00_cphContent_frmPreVisualiza_lblEmpresa"
+      ).innerText;
       //let texto = document.querySelector('span[id="ctl00_cphContent_frmPreVisualiza_lblDetalhes"]').getAttribute("value");
       return {
         tipoDeEmpresa,
@@ -88,13 +124,14 @@ const jucesp = async browser => {
         numero,
         complemento,
         cep,
-        uf
+        uf,
+        nomeDaEmpresa
       };
     });
 
     await page.close();
 
-    return data;
+    return Object.assign({ jucespPathPdf }, data);
   } catch (error) {
     await page.close();
     return { errorJucesp: "Ocorreu um erro" };

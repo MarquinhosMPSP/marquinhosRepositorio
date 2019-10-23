@@ -45,6 +45,9 @@ const relatorioSchema = new moongose.Schema({
   uf: {
     type: String
   },
+  nomeDaEmpresa: {
+    type: String
+  },
   nome: {
     type: String
   },
@@ -205,7 +208,8 @@ const relatorioSchema = new moongose.Schema({
     type: String
   },
   pessoas: {
-    type: Array
+    type: Array,
+    default: null
   },
   infocrimPathPdf: {
     type: String
@@ -265,12 +269,46 @@ const relatorioSchema = new moongose.Schema({
     type: Object
   },
   detranPathPdf: {
-    type: Array
+    type: Array,
+    default: null
   },
   detranPathImg: {
     type: String
   },
   arispPathPdf: {
+    type: String
+  },
+  jucespPathPdf: {
+    type: String
+  },
+  errorArisp: {
+    type: String
+  },
+  errorArpenp: {
+    type: String
+  },
+  errorCadesp: {
+    type: String
+  },
+  errorCaged: {
+    type: String
+  },
+  errorCensec: {
+    type: String
+  },
+  errorDetran: {
+    type: String
+  },
+  errorInfocrim: {
+    type: String
+  },
+  errorJucesp: {
+    type: String
+  },
+  errorSiel: {
+    type: String
+  },
+  errorSivec: {
     type: String
   }
 });

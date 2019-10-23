@@ -44,8 +44,6 @@ const infocrim = async browser => {
 
     return { infocrimPathPdf: "/static/PDFs/" + file };
   } catch (error) {
-    console.log(error);
-
     await page.close();
     return { errorInfocrim: "Ocorreu um erro" };
   }
