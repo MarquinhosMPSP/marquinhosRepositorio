@@ -1,4 +1,4 @@
-const arisp = async browser => {
+const arisp = async (browser, cpf, cnpj) => {
   const download = require("download-pdf");
   const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
@@ -9,6 +9,8 @@ const arisp = async browser => {
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arisp/login.html";
   let urlBase =
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/arisp/";
+
+  let newPage1 = null;
 
   let page = await browser.newPage();
   try {
@@ -53,7 +55,7 @@ const arisp = async browser => {
     await Promise.all([
       page.waitForSelector("#filterDocumento"),
       page.focus("#filterDocumento"),
-      page.keyboard.type("000000000001"),
+      page.keyboard.type(cpf || cnpj),
       page.waitForSelector("#btnPesquisar"),
       page.click("#btnPesquisar"),
       page.waitForNavigation()
@@ -76,7 +78,7 @@ const arisp = async browser => {
     await page.click(
       "#panelMatriculas > tr:nth-child(2) > td:nth-child(4) > a"
     );
-    const newPage1 = await newPagePromise1;
+    newPage1 = await newPagePromise1;
 
     await newPage1.waitForSelector("body > a");
 
@@ -100,13 +102,18 @@ const arisp = async browser => {
     await page.close();
     await newPage1.close();
 
-    return { arispPathPdf: "/static/PDFs/" + relatorioLinhaDeVIdaNome };
+    return {
+      arispPathPdf: "/static/PDFs/" + relatorioLinhaDeVIdaNome,
+      successArisp: true
+    };
   } catch (error) {
     console.log(error);
+
     await page.close();
     if (newPage1) {
       await newPage1.close();
     }
+    return { errorArisp: true };
   }
 };
 

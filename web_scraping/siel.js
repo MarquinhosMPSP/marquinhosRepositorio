@@ -1,4 +1,4 @@
-const siel = async browser => {
+const siel = async (browser, nome, nrprocesso) => {
   console.log("entrou siel");
 
   let page = await browser.newPage();
@@ -29,12 +29,12 @@ const siel = async browser => {
       page.focus(
         "body > div.canvas > div.conteudo > div.mioloInterna.apps > form.formulario > fieldset:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=text]"
       ),
-      page.keyboard.type(" nome do usuario")
+      page.keyboard.type(nome)
     ]);
 
     await Promise.all([
       page.focus("#num_processo"),
-      page.keyboard.type(" 123456")
+      page.keyboard.type(nrprocesso)
     ]);
 
     await Promise.all([
@@ -100,10 +100,10 @@ const siel = async browser => {
 
     await page.close();
 
-    return data;
+    return Object.assign(data, { successSiel: true });
   } catch (error) {
     await page.close();
-    return { errorSiel: "Ocorreu um erro" };
+    return { errorSiel: true };
   }
 };
 

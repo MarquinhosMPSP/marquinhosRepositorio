@@ -281,35 +281,11 @@ const relatorioSchema = new moongose.Schema({
   jucespPathPdf: {
     type: String
   },
-  errorArisp: {
-    type: String
+  falharam: {
+    type: Array
   },
-  errorArpenp: {
-    type: String
-  },
-  errorCadesp: {
-    type: String
-  },
-  errorCaged: {
-    type: String
-  },
-  errorCensec: {
-    type: String
-  },
-  errorDetran: {
-    type: String
-  },
-  errorInfocrim: {
-    type: String
-  },
-  errorJucesp: {
-    type: String
-  },
-  errorSiel: {
-    type: String
-  },
-  errorSivec: {
-    type: String
+  sucesso: {
+    type: Array
   }
 });
 

@@ -6,8 +6,6 @@ const infocrim = async browser => {
 
   let url =
     "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/infocrim/login.html";
-  let urlBase =
-    "http://ec2-18-231-116-58.sa-east-1.compute.amazonaws.com/infocrim/login.html";
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
 
   let page = await browser.newPage();
@@ -42,10 +40,15 @@ const infocrim = async browser => {
 
     await page.close();
 
-    return { infocrimPathPdf: "/static/PDFs/" + file };
+    return Object.assign(
+      { infocrimPathPdf: "/static/PDFs/" + file },
+      { successInfocrim: true }
+    );
   } catch (error) {
+    console.log(error);
+
     await page.close();
-    return { errorInfocrim: "Ocorreu um erro" };
+    return { errorInfocrim: true };
   }
 };
 

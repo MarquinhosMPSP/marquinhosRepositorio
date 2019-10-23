@@ -1,4 +1,4 @@
-const censec = async browser => {
+const censec = async (browser, cpf, cnpj) => {
   console.log("entrou censec");
 
   let url =
@@ -23,7 +23,7 @@ const censec = async browser => {
     await Promise.all([
       page.waitForNavigation(),
       await page.focus("#ctl00_ContentPlaceHolder1_DocumentoTextBox"),
-      await page.keyboard.type("19.811.201/0001-05"),
+      await page.keyboard.type(cpf || cnpj),
       await page.click("#ctl00_ContentPlaceHolder1_BuscarButton")
     ]);
 
@@ -130,10 +130,10 @@ const censec = async browser => {
 
     await page.close();
 
-    return data;
+    return Object.assign(data, { successCensec: true });
   } catch (error) {
     await page.close();
-    return { errorCensec: "Ocorreu um erro" };
+    return { errorCensec: true };
   }
 };
 

@@ -101,6 +101,7 @@ module.exports = {
             .map(obj => obj.method(browser, ...obj.params))
         ).then(async data => {
           await browser.close();
+          const newObject = Object.assign({}, ...data);
           data = Object.assign(
             {
               usuario,
@@ -108,14 +109,23 @@ module.exports = {
                 .utcOffset("-0300")
                 .format("DD/MM/YYYY HH:mm:ss")
             },
-            ...data
+            newObject,
+            {
+              falharam: Object.keys(newObject)
+                .filter(item => item.match(/error/))
+                .reduce((accum, curr) => [...accum, curr.split("error")[1]], [])
+            },
+            {
+              sucesso: Object.keys(newObject)
+                .filter(item => item.match(/success/))
+                .reduce(
+                  (accum, curr) => [...accum, curr.split("success")[1]],
+                  []
+                )
+            }
           );
-          console.log("raw", data);
-
           const relatorio = await Relatorio.create(data);
-
-          console.log("db", relatorio);
-
+          console.log(relatorio);
           return relatorio;
         });
         return portals;

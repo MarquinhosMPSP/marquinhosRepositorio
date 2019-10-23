@@ -1,4 +1,4 @@
-const detran = async browser => {
+const detran = async (browser, cpf, cnpj) => {
   const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
   let CPFformat = "1234566";
@@ -49,10 +49,10 @@ const detran = async browser => {
     await page.keyboard.type("PGU");
 
     await page.focus('td[class="coluna6"] > input');
-    await page.keyboard.type("CPF");
+    await page.keyboard.type(cpf);
 
     await page.focus('tr:nth-child(2)> td[class="coluna2"] > input');
-    await page.keyboard.type("CNPJ");
+    await page.keyboard.type(cnpj);
 
     const Href = await page.evaluate(() => {
       let href = document
@@ -174,11 +174,11 @@ const detran = async browser => {
       detranPathImg
     };
 
-    return dataFim;
+    return Object.assign(dataFim, { successDetran: true });
   } catch (error) {
     console.log(error);
     await page.close();
-    return { errorDetran: "Ocorreu um erro" };
+    return { errorDetran: true };
   }
 };
 

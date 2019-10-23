@@ -1,4 +1,4 @@
-const caged = async browser => {
+const caged = async (browser, cnpj, pispasep) => {
   console.log("entrou caged");
 
   let url =
@@ -26,7 +26,7 @@ const caged = async browser => {
     );
     await page.type(
       "#formPesquisarAutorizado\\:txtChavePesquisaAutorizado014",
-      "teste"
+      cnpj
     );
     await page.click(inputSubmit);
     await page.waitForSelector("#conteudo > fieldset:nth-child(4)");
@@ -59,7 +59,7 @@ const caged = async browser => {
     await page.waitForSelector(optionClick);
     await page.click(optionClick);
     await page.waitForSelector("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz");
-    await page.type("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz", "teste");
+    await page.type("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz", cnpj);
     await page.click(inputSubmit);
     await page.waitForSelector("#formResumoEmpresaCaged\\:txtRazaoSocial");
     var empresa = await page.evaluate(() => {
@@ -106,13 +106,10 @@ const caged = async browser => {
         option => option.innerHTML
       );
       document.querySelector(seletor).selectedIndex = listOptions.indexOf(
-        "CPF"
+        "PIS/PASEP"
       );
     }, seletor);
-    await page.type(
-      "#formPesquisarTrabalhador\\:txtChavePesquisa",
-      autorizado_responsavel.cpf.toString()
-    );
+    await page.type("#formPesquisarTrabalhador\\:txtChavePesquisa", pispasep);
     await page.click(inputSubmit);
     await page.waitForSelector("#txt2_Nome027");
     var trabalhador = await page.evaluate(() => {
@@ -166,11 +163,11 @@ const caged = async browser => {
       trabalhador
     };
     await page.close();
-    return data;
+    return Object.assign(data, { successCaged: true });
   } catch (error) {
     console.log(error);
     await page.close();
-    return { errorCaged: "Ocorreu um erro" };
+    return { errorCaged: true };
   }
 };
 

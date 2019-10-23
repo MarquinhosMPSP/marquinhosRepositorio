@@ -1,4 +1,4 @@
-const cadesp = async browser => {
+const cadesp = async (browser, cnpj) => {
   console.log("entrou cadesp");
 
   let url =
@@ -37,7 +37,7 @@ const cadesp = async browser => {
     await page.focus(
       "#ctl00_conteudoPaginaPlaceHolder_tcConsultaCompleta_TabPanel1_txtIdentificacao"
     );
-    await page.keyboard.type("CNPJ");
+    await page.keyboard.type(cnpj);
     await page.waitForSelector(
       "#ctl00_conteudoPaginaPlaceHolder_tcConsultaCompleta_TabPanel1_btnConsultarEstabelecimento"
     );
@@ -124,10 +124,10 @@ const cadesp = async browser => {
 
     await page.close();
 
-    return data;
+    return Object.assign(data, { successCadesp: true });
   } catch (error) {
     await page.close();
-    return { errorCadesp: "Ocorreu um erro" };
+    return { errorCadesp: true };
   }
 };
 

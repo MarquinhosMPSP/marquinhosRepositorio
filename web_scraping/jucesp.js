@@ -1,6 +1,6 @@
 // const puppeteer = require('puppeteer');
 
-const jucesp = async browser => {
+const jucesp = async (browser, empresa) => {
   const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
   let CPFformat = "1234566";
@@ -20,7 +20,7 @@ const jucesp = async browser => {
   try {
     await page.goto(url, { waitUntil: "networkidle2" });
     await page.focus("#ctl00_cphContent_frmBuscaSimples_txtPalavraChave");
-    await page.keyboard.type("teste");
+    await page.keyboard.type(empresa);
 
     await Promise.all([
       page.waitForNavigation(),
@@ -131,10 +131,10 @@ const jucesp = async browser => {
 
     await page.close();
 
-    return Object.assign({ jucespPathPdf }, data);
+    return Object.assign({ jucespPathPdf }, data, { successJucesp: true });
   } catch (error) {
     await page.close();
-    return { errorJucesp: "Ocorreu um erro" };
+    return { errorJucesp: true };
   }
 };
 

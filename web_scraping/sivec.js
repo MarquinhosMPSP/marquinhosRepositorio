@@ -1,4 +1,4 @@
-const sivec = async browser => {
+const sivec = async (browser, rg, nome) => {
   console.log("entrou sivec");
 
   let url =
@@ -25,7 +25,7 @@ const sivec = async browser => {
 
     await page.waitForNavigation();
     await page.focus("#idValorPesq");
-    await page.keyboard.type("1234");
+    await page.keyboard.type(rg);
     await page.click("#procurar");
 
     await page.waitForNavigation();
@@ -130,10 +130,10 @@ const sivec = async browser => {
 
     await page.close();
 
-    return data;
+    return Object.assign(data, { successSivec: true });
   } catch (error) {
     await page.close();
-    return { errorSivec: "Ocorreu um erro" };
+    return { errorSivec: true };
   }
 };
 

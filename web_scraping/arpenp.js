@@ -1,4 +1,4 @@
-const arpenp = async browser => {
+const arpenp = async (browser, nrprocesso) => {
   console.log("entrou arpenp");
 
   let url =
@@ -33,7 +33,7 @@ const arpenp = async browser => {
     await page.focus(
       '#principal > div > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type="text"]'
     );
-    await page.keyboard.type("nprocesso");
+    await page.keyboard.type(nrprocesso);
     await page.click("#btn_pesquisar");
 
     await page.waitForSelector(
@@ -112,10 +112,10 @@ const arpenp = async browser => {
 
     await page.close();
 
-    return data;
+    return Object.assign(data, { successArpenp: true });
   } catch (error) {
     await page.close();
-    return { errorArpenp: "Ocorreu um erro" };
+    return { errorArpenp: true };
   }
 };
 
