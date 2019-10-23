@@ -49,10 +49,10 @@ const detran = async (browser, cpf, cnpj) => {
     await page.keyboard.type("PGU");
 
     await page.focus('td[class="coluna6"] > input');
-    await page.keyboard.type(cpf);
+    await page.keyboard.type(String(cpf));
 
     await page.focus('tr:nth-child(2)> td[class="coluna2"] > input');
-    await page.keyboard.type(cnpj);
+    await page.keyboard.type(String(cnpj));
 
     const Href = await page.evaluate(() => {
       let href = document

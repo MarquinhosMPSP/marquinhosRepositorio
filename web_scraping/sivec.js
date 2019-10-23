@@ -25,7 +25,7 @@ const sivec = async (browser, rg, nome) => {
 
     await page.waitForNavigation();
     await page.focus("#idValorPesq");
-    await page.keyboard.type(rg);
+    await page.keyboard.type(String(rg));
     await page.click("#procurar");
 
     await page.waitForNavigation();

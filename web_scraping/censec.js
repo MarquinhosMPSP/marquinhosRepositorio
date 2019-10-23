@@ -23,7 +23,7 @@ const censec = async (browser, cpf, cnpj) => {
     await Promise.all([
       page.waitForNavigation(),
       await page.focus("#ctl00_ContentPlaceHolder1_DocumentoTextBox"),
-      await page.keyboard.type(cpf || cnpj),
+      await page.keyboard.type(String(cpf || cnpj)),
       await page.click("#ctl00_ContentPlaceHolder1_BuscarButton")
     ]);
 

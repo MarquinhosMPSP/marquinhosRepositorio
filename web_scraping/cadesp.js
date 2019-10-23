@@ -37,7 +37,7 @@ const cadesp = async (browser, cnpj) => {
     await page.focus(
       "#ctl00_conteudoPaginaPlaceHolder_tcConsultaCompleta_TabPanel1_txtIdentificacao"
     );
-    await page.keyboard.type(cnpj);
+    await page.keyboard.type(String(cnpj));
     await page.waitForSelector(
       "#ctl00_conteudoPaginaPlaceHolder_tcConsultaCompleta_TabPanel1_btnConsultarEstabelecimento"
     );

@@ -20,7 +20,7 @@ const jucesp = async (browser, empresa) => {
   try {
     await page.goto(url, { waitUntil: "networkidle2" });
     await page.focus("#ctl00_cphContent_frmBuscaSimples_txtPalavraChave");
-    await page.keyboard.type(empresa);
+    await page.keyboard.type(String(empresa));
 
     await Promise.all([
       page.waitForNavigation(),

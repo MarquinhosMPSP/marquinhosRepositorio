@@ -55,7 +55,7 @@ const arisp = async (browser, cpf, cnpj) => {
     await Promise.all([
       page.waitForSelector("#filterDocumento"),
       page.focus("#filterDocumento"),
-      page.keyboard.type(cpf || cnpj),
+      page.keyboard.type(String(cpf || cnpj)),
       page.waitForSelector("#btnPesquisar"),
       page.click("#btnPesquisar"),
       page.waitForNavigation()

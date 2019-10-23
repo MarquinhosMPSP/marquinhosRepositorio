@@ -29,12 +29,12 @@ const siel = async (browser, nome, nrprocesso) => {
       page.focus(
         "body > div.canvas > div.conteudo > div.mioloInterna.apps > form.formulario > fieldset:nth-child(1) > table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=text]"
       ),
-      page.keyboard.type(nome)
+      page.keyboard.type(String(nome))
     ]);
 
     await Promise.all([
       page.focus("#num_processo"),
-      page.keyboard.type(nrprocesso)
+      page.keyboard.type(String(nrprocesso))
     ]);
 
     await Promise.all([

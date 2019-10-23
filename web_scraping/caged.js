@@ -26,7 +26,7 @@ const caged = async (browser, cnpj, pispasep) => {
     );
     await page.type(
       "#formPesquisarAutorizado\\:txtChavePesquisaAutorizado014",
-      cnpj
+      String(cnpj)
     );
     await page.click(inputSubmit);
     await page.waitForSelector("#conteudo > fieldset:nth-child(4)");
@@ -59,7 +59,7 @@ const caged = async (browser, cnpj, pispasep) => {
     await page.waitForSelector(optionClick);
     await page.click(optionClick);
     await page.waitForSelector("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz");
-    await page.type("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz", cnpj);
+    await page.type("#formPesquisarEmpresaCAGED\\:txtcnpjRaiz", String(cnpj));
     await page.click(inputSubmit);
     await page.waitForSelector("#formResumoEmpresaCaged\\:txtRazaoSocial");
     var empresa = await page.evaluate(() => {
@@ -109,7 +109,10 @@ const caged = async (browser, cnpj, pispasep) => {
         "PIS/PASEP"
       );
     }, seletor);
-    await page.type("#formPesquisarTrabalhador\\:txtChavePesquisa", pispasep);
+    await page.type(
+      "#formPesquisarTrabalhador\\:txtChavePesquisa",
+      String(pispasep)
+    );
     await page.click(inputSubmit);
     await page.waitForSelector("#txt2_Nome027");
     var trabalhador = await page.evaluate(() => {

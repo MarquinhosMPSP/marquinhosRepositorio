@@ -33,7 +33,7 @@ const arpenp = async (browser, nrprocesso) => {
     await page.focus(
       '#principal > div > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type="text"]'
     );
-    await page.keyboard.type(nrprocesso);
+    await page.keyboard.type(String(nrprocesso));
     await page.click("#btn_pesquisar");
 
     await page.waitForSelector(
