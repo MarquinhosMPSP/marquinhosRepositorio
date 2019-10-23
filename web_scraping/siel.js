@@ -1,6 +1,10 @@
 const siel = async (browser, nome, nrprocesso) => {
   console.log("entrou siel");
 
+  nrprocesso = String(nrprocesso);
+
+  nrprocesso = nrprocesso.length > 2 ? nrprocesso : "12345";
+
   let page = await browser.newPage();
 
   let url =
@@ -34,7 +38,7 @@ const siel = async (browser, nome, nrprocesso) => {
 
     await Promise.all([
       page.focus("#num_processo"),
-      page.keyboard.type(String(nrprocesso))
+      page.keyboard.type(nrprocesso)
     ]);
 
     await Promise.all([

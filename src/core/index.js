@@ -102,6 +102,8 @@ module.exports = {
         ).then(async data => {
           await browser.close();
           const newObject = Object.assign({}, ...data);
+          console.log(newObject);
+
           data = Object.assign(
             {
               usuario,
