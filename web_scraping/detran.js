@@ -3,6 +3,7 @@ const detran = async (browser, cpf, cnpj) => {
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
   let CPFformat = "1234566";
   const download = require("download-file");
+  const PDF2Pic = require("pdf2pic");
 
   console.log("entrou detran");
 
@@ -68,18 +69,35 @@ const detran = async (browser, cpf, cnpj) => {
     var pdf1 = urlBase + encodeURIComponent(Href);
 
     let relatorioLinhaDeVIdaNome =
-      CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
+      CPFformat + "_" + sysdateFormat + "_" + "Detran1";
 
-    var options = {
+    var options1 = {
       directory: pathPDF,
-      filename: relatorioLinhaDeVIdaNome
+      filename: relatorioLinhaDeVIdaNome + ".pdf"
     };
 
-    download(pdf1, options, function(err) {
-      if (err) throw err;
+    let detranPathImg = [];
+
+    let pdf2pic = new PDF2Pic({
+      density: 100,
+      savename: relatorioLinhaDeVIdaNome,
+      savedir: __filesPath + "/Images/",
+      format: "png",
+      size: "595x842"
     });
-    let relatorioLinhaDeVIda =
-      pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran1.pdf";
+
+    let download1 = new Promise((resolve, reject) => {
+      download(pdf1, options1, err => {
+        if (err) reject(err);
+        pdf2pic
+          .convertBulk(options1.directory + options1.filename, -1)
+          .then(result => {
+            result.map(img => detranPathImg.push(`/static/Images/${img.name}`));
+            resolve(result);
+          });
+      });
+    });
+    await download1;
 
     /* ######### SALVANDO PDF 2 ############# **/
     await Promise.all([
@@ -111,18 +129,33 @@ const detran = async (browser, cpf, cnpj) => {
     var pdf2 = urlBase + encodeURIComponent(Href2);
 
     let relatorioVeiculoNome =
-      CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
+      CPFformat + "_" + sysdateFormat + "_" + "Detran2";
 
-    var options = {
+    var options2 = {
       directory: pathPDF,
-      filename: relatorioVeiculoNome
+      filename: relatorioVeiculoNome + ".pdf"
     };
 
-    download(pdf2, options, function(err) {
-      if (err) throw err;
+    let pdf2pic2 = new PDF2Pic({
+      density: 100,
+      savename: relatorioVeiculoNome,
+      savedir: __filesPath + "/Images/",
+      format: "png",
+      size: "595x842"
     });
-    let relatorioVeiculo =
-      pathPDF + CPFformat + "_" + sysdateFormat + "_" + "Detran2.pdf";
+
+    let download2 = new Promise((resolve, reject) => {
+      download(pdf2, options2, err => {
+        if (err) reject(err);
+        pdf2pic2
+          .convertBulk(options2.directory + options2.filename, -1)
+          .then(result => {
+            result.map(img => detranPathImg.push(`/static/Images/${img.name}`));
+            resolve(result);
+          });
+      });
+    });
+    await download2;
 
     /** ############## salvando imagem ############## */
     await Promise.all([
@@ -158,14 +191,16 @@ const detran = async (browser, cpf, cnpj) => {
       path: pathImages + CPFformat + "_" + sysdateFormat + "_" + "detran.png",
       clip: { x: 410, y: 340, width: 767, height: 400 }
     });
-    let detranPathImg =
-      "/static/Images/" + CPFformat + "_" + sysdateFormat + "_" + "detran.png";
+
+    detranPathImg.push(
+      "/static/Images/" + CPFformat + "_" + sysdateFormat + "_" + "detran.png"
+    );
 
     pageImagem.close();
 
     let detranPathPdf = [
-      "/static/PDFs/" + relatorioLinhaDeVIdaNome,
-      "/static/PDFs/" + relatorioVeiculoNome
+      `/static/PDFs/${relatorioLinhaDeVIdaNome}.pdf`,
+      `/static/PDFs/${relatorioVeiculoNome}.pdf`
     ];
 
     await page.close();

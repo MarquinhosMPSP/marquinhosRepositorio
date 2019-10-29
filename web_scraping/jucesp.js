@@ -1,10 +1,10 @@
-// const puppeteer = require('puppeteer');
+const moment = require("moment");
+const download = require("download-file");
+const PDF2Pic = require("pdf2pic");
 
 const jucesp = async (browser, empresa) => {
-  const moment = require("moment");
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
   let CPFformat = "1234566";
-  const download = require("download-file");
 
   console.log("entrou jucesp");
 
@@ -54,22 +54,40 @@ const jucesp = async (browser, empresa) => {
         .getAttribute("onclick");
       return href;
     });
-    //window.location='pagina6-ficha-cadastral-simplificada-relatorio.pdf'
     var HrefTratada = Href.split("='")[1].split("'")[0];
     var pdf1 = urlBase + encodeURIComponent(HrefTratada);
 
-    let jucespPdf = CPFformat + "_" + sysdateFormat + "_" + "jucesp.pdf";
+    let jucespPdf = CPFformat + "_" + sysdateFormat + "_" + "jucesp";
 
     var options = {
       directory: pathPDF,
-      filename: jucespPdf
+      filename: `${jucespPdf}.pdf`
     };
 
-    const jucespPathPdf = "/static/PDFs/" + jucespPdf;
+    const jucespPathPdf = `/static/PDFs/${jucespPdf}.pdf`;
 
-    download(pdf1, options, function(err) {
-      if (err) throw err;
+    let jucespPathImg = [];
+
+    const pdf2pic = new PDF2Pic({
+      density: 100,
+      savename: jucespPdf,
+      savedir: __filesPath + "/Images/",
+      format: "png",
+      size: "595x842"
     });
+
+    let download1 = new Promise((resolve, reject) => {
+      download(pdf1, options, err => {
+        if (err) reject(err);
+        pdf2pic
+          .convertBulk(options.directory + options.filename, -1)
+          .then(result => {
+            result.map(img => jucespPathImg.push(`/static/Images/${img.name}`));
+            resolve(result);
+          });
+      });
+    });
+    await download1;
 
     let data = await page.evaluate(() => {
       let tipoDeEmpresa = document.querySelector(
@@ -131,8 +149,12 @@ const jucesp = async (browser, empresa) => {
 
     await page.close();
 
-    return Object.assign({ jucespPathPdf }, data, { successJucesp: true });
+    return Object.assign({ jucespPathPdf, jucespPathImg }, data, {
+      successJucesp: true
+    });
   } catch (error) {
+    console.log(error);
+
     await page.close();
     return { errorJucesp: true };
   }

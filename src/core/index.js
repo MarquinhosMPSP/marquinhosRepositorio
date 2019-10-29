@@ -53,7 +53,12 @@ module.exports = {
         valid: isValid(cpf) || isValid(cnpj),
         params: [cpf || cnpj]
       },
-      { name: "infocrim", method: infocrim, valid: true, params: [] },
+      {
+        name: "infocrim",
+        method: infocrim,
+        valid: isValid(nome),
+        params: [nome]
+      },
       {
         name: "arpenp",
         method: arpenp,
@@ -99,11 +104,13 @@ module.exports = {
           portalsToScrap
             .filter(item => item.valid)
             .map(obj => obj.method(browser, ...obj.params))
+          // [arisp(browser, cpf, cnpj), detran(browser, cpf, cnpj)]
         ).then(async data => {
           await browser.close();
           const newObject = Object.assign({}, ...data);
           console.log(newObject);
 
+          // return;
           data = Object.assign(
             {
               usuario,

@@ -214,6 +214,9 @@ const relatorioSchema = new moongose.Schema({
   infocrimPathPdf: {
     type: String
   },
+  infocrimPathImg: {
+    type: Array
+  },
   cartregistro: {
     type: String
   },
@@ -273,13 +276,19 @@ const relatorioSchema = new moongose.Schema({
     default: null
   },
   detranPathImg: {
-    type: String
+    type: Array
   },
   arispPathPdf: {
     type: String
   },
+  arispPathImg: {
+    type: Array
+  },
   jucespPathPdf: {
     type: String
+  },
+  jucespPathImg: {
+    type: Array
   },
   falharam: {
     type: Array

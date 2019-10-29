@@ -1,6 +1,8 @@
 const arisp = async (browser, cpf, cnpj) => {
   const download = require("download-pdf");
   const moment = require("moment");
+  const PDF2Pic = require("pdf2pic");
+
   let sysdateFormat = moment().format("DD-MM-YYYY_HH-mm-ss");
 
   console.log("entrou arisp");
@@ -70,7 +72,10 @@ const arisp = async (browser, cpf, cnpj) => {
     ]);
 
     const newPagePromise1 = new Promise(x =>
-      browser.once("targetcreated", target => x(target.page()))
+      browser.once("targetcreated", target => {
+        console.log("criou pagina");
+        x(target.page());
+      })
     );
     await page.waitForSelector(
       "#panelMatriculas > tr:nth-child(2) > td:nth-child(4) > a"
@@ -80,7 +85,11 @@ const arisp = async (browser, cpf, cnpj) => {
     );
     newPage1 = await newPagePromise1;
 
+    console.log("nova pagina");
+
     await newPage1.waitForSelector("body > a");
+
+    console.log("esperou o body > a");
 
     const Hreffinal = await newPage1.evaluate(() => {
       let href = document.querySelector("body > a").getAttribute("href");
@@ -90,20 +99,41 @@ const arisp = async (browser, cpf, cnpj) => {
     let pathPDF = __filesPath + "/PDFs/";
     let CPFformat = "1234566";
     let relatorioLinhaDeVIdaNome =
-      CPFformat + "_" + sysdateFormat + "_" + "arisp.pdf";
+      CPFformat + "_" + sysdateFormat + "_" + "arisp";
     var options = {
       directory: pathPDF,
-      filename: relatorioLinhaDeVIdaNome
+      filename: `${relatorioLinhaDeVIdaNome}.pdf`
     };
-    download(pdf1, options, function(err) {
-      if (err) throw err;
+
+    let arispPathImg = [];
+
+    const pdf2pic = new PDF2Pic({
+      density: 100,
+      savename: relatorioLinhaDeVIdaNome,
+      savedir: __filesPath + "/Images/",
+      format: "png",
+      size: "595x842"
     });
+
+    let download1 = new Promise((resolve, reject) => {
+      download(pdf1, options, err => {
+        if (err) reject(err);
+        pdf2pic
+          .convertBulk(options.directory + options.filename, -1)
+          .then(result => {
+            result.map(img => arispPathImg.push(`/static/Images/${img.name}`));
+            resolve(result);
+          });
+      });
+    });
+    await download1;
 
     await page.close();
     await newPage1.close();
 
     return {
-      arispPathPdf: "/static/PDFs/" + relatorioLinhaDeVIdaNome,
+      arispPathPdf: `/static/PDFs/${relatorioLinhaDeVIdaNome}.pdf`,
+      arispPathImg,
       successArisp: true
     };
   } catch (error) {

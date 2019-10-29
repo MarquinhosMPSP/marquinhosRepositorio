@@ -1,7 +1,7 @@
 const moment = require("moment");
-const download = require("download-pdf");
+const pdf2img = require("pdf2img");
 
-const infocrim = async browser => {
+const infocrim = async (browser, nome) => {
   console.log("entrou infocrim");
 
   let url =
@@ -31,19 +31,20 @@ const infocrim = async browser => {
 
     await Promise.all([page.click("#cabec > td > a:nth-child(2)")]);
 
-    let path = __filesPath + "/PDFs/";
-    let file = `46618865859_${moment().format(
-      "DD-MM-YYYY_HH-mm-ss"
-    )}_infocrim.pdf`;
+    let pathPdf = __filesPath + "/PDFs/";
+    let pathImg = __filesPath + "/Images/";
+    let file = `46618865859_${moment().format("DD-MM-YYYY_HH-mm-ss")}_infocrim`;
     await page.emulateMedia("print");
-    await page.pdf({ path: path + file, format: "A4" });
+    await page.pdf({ path: `${pathPdf}${file}.pdf`, format: "A4" });
+    await page.screenshot({ path: `${pathImg}${file}.png`, fullPage: true });
 
     await page.close();
 
-    return Object.assign(
-      { infocrimPathPdf: "/static/PDFs/" + file },
-      { successInfocrim: true }
-    );
+    return {
+      infocrimPathPdf: `/static/PDFs/${file}.pdf`,
+      infocrimPathImg: `/static/Images/${file}.png`,
+      successInfocrim: true
+    };
   } catch (error) {
     console.log(error);
 
