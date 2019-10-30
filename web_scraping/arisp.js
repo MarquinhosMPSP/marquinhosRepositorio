@@ -73,7 +73,6 @@ const arisp = async (browser, cpf, cnpj) => {
 
     const newPagePromise1 = new Promise(x =>
       browser.once("targetcreated", target => {
-        console.log("criou pagina");
         x(target.page());
       })
     );
@@ -83,13 +82,14 @@ const arisp = async (browser, cpf, cnpj) => {
     await page.click(
       "#panelMatriculas > tr:nth-child(2) > td:nth-child(4) > a"
     );
-    newPage1 = await newPagePromise1;
+    newPageUrl = await newPagePromise1;
 
-    console.log("nova pagina");
+    let url2 = await newPageUrl.url();
+
+    const newPage1 = await browser.newPage();
+    await newPage1.goto(url2, { waitUntil: "networkidle2" });
 
     await newPage1.waitForSelector("body > a");
-
-    console.log("esperou o body > a");
 
     const Hreffinal = await newPage1.evaluate(() => {
       let href = document.querySelector("body > a").getAttribute("href");
