@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "download-file": "^0.1.5",
     "download-pdf": "^0.1.6",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "moment": "^2.24.0",
     "mongoose": "^5.6.11",
     "puppeteer": "^1.19.0",
